@@ -1,9 +1,40 @@
-<link rel="import" href="/src/polymer-imports.html">
+<link rel="import" href="../polymer-imports.html">
 
 
 <dom-module id="my-home">
 	<template>
-		home
+
+
+  <style include="iron-flex iron-flex-alignment">
+      :host {
+        display: block;
+      }
+
+      paper-button {
+        background: green;
+        
+      }
+
+    </style>
+		
+
+<div class="main container">
+  <br/>
+    <div class="title">
+      <h1 class="title-h1">AngularCars</h1>
+      <div>
+        <img class="title-logo" src="/src/img/main.jpg"/>
+      </div>
+      <h2 class="title-h2">Always a pleasure providing your cars.</h2>
+    </div>
+    <br/>
+    <div class="layout flex vertical center justified-center">
+      <paper-button raised>
+        <a class="waves-effect waves-light btn center-align col s6 offset-s3" href="/cars" id="enter">Enter</a>
+      </paper-button>
+    </div>
+  </div>
+  
 
 
 	</template>

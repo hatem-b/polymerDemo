@@ -1,4 +1,4 @@
-<link rel="import" href="/src/polymer-imports.html">
+<link rel="import" href="./polymer-imports.html">
 
 <link rel="import" href="./cars/cars.component.html">
 <link rel="import" href="./components/home.html">
@@ -11,31 +11,47 @@
     <app-route route="{{route}}" pattern="/:page" data="{{data}}" tail="{{tail}}"></app-route>
 
 
-    <style>
+    <style include="iron-flex iron-flex-alignment">
       :host {
         display: block;
       }
+
+      app-header {
+                background-color: #ee6e73;
+                color: white;                
+            }
+
     </style>
     
-    <h2>Hello [[prop1]]</h2>
-
-    <header id="header" class="">
-      
-    </header><!-- /header -->
+<div class="flex" >
+    <app-header-layout>
+            <app-header condenses fixed effects="waterfall">
+                <app-toolbar>
+                    <a href="/home">
+                        <img src="" class="logo" alt="PolymerCars">
+                    </a>
+                    <span class="flex" title></span>
+                    <a href="/cars/list/cards">
+                        <span> Cars </span>
+                    </a>
+                    <a href="/cars/add">
+                        <span> Add </span>
+                    </a>
+                </app-toolbar>
+            </app-header>
 
     <iron-pages selected="[[data.page]]" attr-for-selected="name">
       <my-home name=""></my-home>
       <my-home name="home"></my-home>
       <my-cars name="cars"></my-cars>      
     </iron-pages>
+  </app-header-layout>
 
 
 
-
-    <footer>
-      
+    <footer  class="page-footer">
     </footer>
-
+</div>
   </template>
 
   <script>
