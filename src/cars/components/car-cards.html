@@ -1,10 +1,18 @@
 <link rel="import" href="../../polymer-imports.html">
+<link rel="import" href="./car-card.html">
 
 
 <dom-module id="car-cards">
 	<template>
-		car cards
-
+		<style include="iron-flex iron-flex-alignment">
+      
+    </style>
+    <paper-input class="search flex" value="{{filter}}" label="Search"></paper-input>
+    <div class="layout vertical wrap center">
+        <template id="carRepeat" is="dom-repeat" items="{{cars}}" filter="filterFunction">
+            <car-card car="{{item}}" ></people-card>
+        </template>
+    </div>
 
 	</template>
 
@@ -17,11 +25,23 @@ Polymer({
       is: 'car-cards',
 
       properties: {
-        prop1: {
-          type: String,
-          value: 'polymerCars-app',
+        cars: {
+          type: Array,
+          value: [],
+          notify : true
         },
+        filter : {
+          type : String,
+          notify: true,
+          observer : "_filterChanged"
+        }
       },
+      filterFunction : function(item){
+        return JSON.stringify(item).toLowerCase().indexOf(this.filter.toLowerCase()) >=0;
+      },
+      _filterChanged : function(){
+        this.$.carRepeat.render();
+      }
 
     });
 

@@ -1,22 +1,41 @@
 <link rel="import" href="../../polymer-imports.html">
 
+<link rel="import" href="./car-table.html">
+<link rel="import" href="./car-cards.html">
+<link rel="import" href="../car-service.html">
 
 <dom-module id="car-list">
 	<template>
-		<paper-tabs selected='{{data.page}}' attr-for-selected='key'>
-		  <paper-tab key='cards'>Cards</paper-tab>
-		  <paper-tab key='table'>Table</paper-tab>		  
+
+	<style>
+		paper-tabs {
+			background-color: #ee6e73;
+			color: white;
+		}
+	</style>
+		<car-service id="carService" cars="{{cars}}"></car-service>	
+
+<div style="margin:20px;">
+
+		<paper-tabs selected='{{route.path}}' attr-for-selected='key'>
+		  <paper-tab key='/cards'>Cards</paper-tab>
+		  <paper-tab key='/table'>Table</paper-tab>		  
 		</paper-tabs>
 
-		<neon-animated-pages selected='{{data.page}}'
+		<neon-animated-pages selected='{{route.path}}'
 		                     attr-for-selected='key'
 		                     entry-animation='slide-from-left-animation'
-		                     exit-animation='slide-right-animation'>
-		  <neon-animatable key='foo'>Foo Page Here</neon-animatable>
-		  <neon-animatable key='bar'>Bar Page Goes Here</neon-animatable>
-		  <neon-animatable key='baz'>Baz Page, the Best One of the Three</neon-animatable>
-		</neon-animated-pages>
+		                     exit-animation='slide-right-animation'>		  
+		  
+		  <neon-animatable key='/cards'>
+		  	<car-cards cars="{{cars}}"></car-cards>
+		  </neon-animatable>
+		  <neon-animatable key='/table'>
+		  	<car-table cars="{{cars}}"></car-table>
+		  </neon-animatable>		  
 
+		</neon-animated-pages>
+</div>
 
 	</template>
 
@@ -29,11 +48,31 @@ Polymer({
       is: 'car-list',
 
       properties: {
-        prop1: {
-          type: String,
-          value: 'polymerCars-app',
+        cars: {
+          type: Array,
+          value: [],
         },
+        route: {
+        	notify: true
+        },
+        visible: {    
+          type: Boolean,
+          value: false,
+          observer: '_visibleChanged'      
+        },        
       },
+      _visibleChanged : function(visible){      	
+      	if (!visible) return;
+
+      	if (this.route.path == "" || this.route.path == "/") {      		
+	      		this.set("route.path", "/cards");
+	      }
+
+	      this.$.carService.getCars();
+      },
+      filterOnName : function(){
+        return true;
+      }
 
     });
 

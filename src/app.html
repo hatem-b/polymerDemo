@@ -8,8 +8,7 @@
 
 
     <app-location route="{{route}}" ></app-location>
-    <app-route route="{{route}}" pattern="/:page" data="{{data}}" tail="{{tail}}"></app-route>
-
+    <app-route route="{{route}}" pattern="/:page" data="{{data}}" tail="{{subroute}}"></app-route>
 
     <style include="iron-flex iron-flex-alignment">
       :host {
@@ -32,18 +31,17 @@
                     </a>
                     <span class="flex" title></span>
                     <a href="/cars/list/cards">
-                        <span> Cars </span>
+                        <paper-button> Cars </paper-button>
                     </a>
                     <a href="/cars/add">
-                        <span> Add </span>
+                        <paper-button> Add </paper-button>
                     </a>
                 </app-toolbar>
             </app-header>
-
-    <iron-pages selected="[[data.page]]" attr-for-selected="name">
-      <my-home name=""></my-home>
-      <my-home name="home"></my-home>
-      <my-cars name="cars"></my-cars>      
+            
+    <iron-pages selected="{{data.page}}" attr-for-selected="name" selected-attribute="visible">
+      <my-home name="home" route="{{subroute}}"></my-home>
+      <my-cars name="cars" route="{{subroute}}"></my-cars>      
     </iron-pages>
   </app-header-layout>
 
@@ -60,11 +58,15 @@
       is: 'polymerCars-app',
 
       properties: {
-        prop1: {
-          type: String,
-          value: 'polymerCars-app',
+        route: {
+          notify: true
         },
       },
+      attached : function(){        
+        if (!this.data.page || this.data.page == "") {   
+          this.set("data.page", "home");          
+        }
+      }
 
     });
   </script>

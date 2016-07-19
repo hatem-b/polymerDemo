@@ -40,7 +40,7 @@
         properties: {
           apiUrl:{
             type:String,
-            value:"http://localhost:3001/api/cars"
+            value:"http://node-hatem.azurewebsites.net/cars"
           },
           cars: {
             type: Array,
@@ -58,7 +58,7 @@
         },
         createCar: function (car) {
           this.$.createCar.body = car;
-          this.$.createPeople.generateRequest();
+          this.$.createCar.generateRequest();
         },
         onCreate: function (event) {
           this.fire('create-success',event.detail.response);

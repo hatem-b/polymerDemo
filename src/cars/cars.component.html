@@ -1,10 +1,18 @@
 <link rel="import" href="../polymer-imports.html">
 
+<link rel="import" href="./components/car-list.html">
+<link rel="import" href="./components/car-form.html">
+
 
 <dom-module id="my-cars">
   <template>
-    cars
-
+    <app-route route="{{route}}" pattern="/:page" data="{{data}}" tail="{{subroute}}"></app-route>
+    <iron-pages selected="{{data.page}}" attr-for-selected="name" selected-attribute="visible">
+            
+      <car-list name="list" route="{{subroute}}"></car-list>
+      <car-form name="add" route="{{subroute}}"></car-form>
+      <car-form name="edit" route="{{subroute}}"></car-form>
+    </iron-pages>
 
   </template>
 
@@ -17,11 +25,37 @@ Polymer({
       is: 'my-cars',
 
       properties: {
-        prop1: {
-          type: String,
-          value: 'polymerCars-app',
+        visible: {    
+          type: Boolean,
+          value: false,
+          observer: '_visibleChanged'      
         },
+        route : {
+          notify : true
+        },
+        subroute : {
+          notify : true
+        },
+        data : {
+          notify : true
+        }
       },
+      attached : function(){     
+        
+      }, 
+      _visibleChanged : function(visible){
+        
+        if (!visible) return;
+
+        if (!this.route.path){
+          this.set("route.path","/");
+        }
+
+        if (!this.data.page || this.data.page == "") {         
+          this.set("data.page", "list");
+        }
+
+      }
 
     });
 

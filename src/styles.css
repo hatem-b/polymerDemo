@@ -17,6 +17,15 @@ a {
   }
 }
 
+
+table a {
+  color: blue;
+}
+
+table td {
+  padding: 10px;
+}
+
 .title {
   display: flex;
   flex-direction: column;
