@@ -1,0 +1,42 @@
+<link rel="import" href="/src/polymer-imports.html">
+
+
+<dom-module id="car-list">
+	<template>
+		<paper-tabs selected='{{data.page}}' attr-for-selected='key'>
+		  <paper-tab key='cards'>Cards</paper-tab>
+		  <paper-tab key='table'>Table</paper-tab>		  
+		</paper-tabs>
+
+		<neon-animated-pages selected='{{data.page}}'
+		                     attr-for-selected='key'
+		                     entry-animation='slide-from-left-animation'
+		                     exit-animation='slide-right-animation'>
+		  <neon-animatable key='foo'>Foo Page Here</neon-animatable>
+		  <neon-animatable key='bar'>Bar Page Goes Here</neon-animatable>
+		  <neon-animatable key='baz'>Baz Page, the Best One of the Three</neon-animatable>
+		</neon-animated-pages>
+
+
+	</template>
+
+
+
+<script>
+	
+Polymer({
+
+      is: 'car-list',
+
+      properties: {
+        prop1: {
+          type: String,
+          value: 'polymerCars-app',
+        },
+      },
+
+    });
+
+</script>
+
+</dom-module>

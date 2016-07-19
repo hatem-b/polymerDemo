@@ -1,0 +1,7 @@
+{
+  "name": "polymerCars",
+  "short_name": "polymerCars",
+  "description": "demo : example application with polymer",
+  "start_url": "/",
+  "display": "standalone"
+}

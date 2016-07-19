@@ -1,0 +1,50 @@
+<link rel="import" href="/src/polymer-imports.html">
+
+<dom-module id="car-table">
+	<template>
+		<table class="">
+  <thead>
+    <tr>
+      <th>Manufacturer</th>
+      <th>Model</th>
+      <th>Price</th>
+      <th>Wiki</th>
+      <th>Image</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr >
+      <td>{{car.manufacturer}}</td>
+      <td>{{car.model}}</td>
+      <td>{{car.price}}</td>
+      <td ><a class="blue-text" href="{{car.wiki}}" target = "_blank" > {{car.wiki}}</a></td>      
+      <td><img ng-src="{{car.img}}" style="height:50px;width:100px;" /></td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+
+	</template>
+
+
+
+<script>
+	
+Polymer({
+
+      is: 'car-table',
+
+      properties: {
+        prop1: {
+          type: String,
+          value: 'polymerCars-app',
+        },
+      },
+
+    });
+
+</script>
+
+</dom-module>

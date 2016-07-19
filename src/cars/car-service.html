@@ -1,0 +1,88 @@
+<link rel="import" href="/src/polymer-imports.html">
+
+<dom-module id="car-service">
+  <template>
+    <iron-ajax
+        id="getCars"
+        url="{{apiUrl}}"
+        handle-as="json"
+        last-response="{{cars}}"></iron-ajax>
+    <iron-ajax
+        id="createCar"
+        url="{{apiUrl}}"
+        content-type="application/json"
+        method="POST"
+        handle-as="json"
+        on-response="onCreate"></iron-ajax>
+    <iron-ajax
+        id="deleteCar"
+        method="DELETE"
+        handle-as="json"
+        on-response="onDelete"></iron-ajax>
+    <iron-ajax
+        id="updateCar"
+        content-type="application/json"
+        method="PUT"
+        handle-as="json"
+        on-response="onUpdate"></iron-ajax>
+    <iron-ajax
+        id="getCarById"
+        handle-as="json"
+        last-response="{{currentCar}}"></iron-ajax>
+  </template>
+
+  <script>
+    (function () {
+      'use strict';
+
+      Polymer({
+        is: 'car-service',
+        properties: {
+          apiUrl:{
+            type:String,
+            value:"http://localhost:3001/api/cars"
+          },
+          cars: {
+            type: Array,
+            value: [],
+            notify: true
+          },
+          currentCar: {
+            type: Object,
+            value: {},
+            notify: true
+          }
+        },
+        getCars: function () {
+          this.$.getCars.generateRequest();
+        },
+        createCar: function (car) {
+          this.$.createCar.body = car;
+          this.$.createPeople.generateRequest();
+        },
+        onCreate: function (event) {
+          this.fire('create-success',event.detail.response);
+        },
+        deleteCar: function (carId) {
+          this.$.deleteCar.url = this.apiUrl+"/"+carId;
+          this.$.deleteCar.generateRequest();
+        },
+        onDelete: function (event) {
+          this.fire('delete-success',event.detail.response);
+        },
+        getCarById: function (carId) {
+          this.$.getCarById.url = this.apiUrl+"/"+carId;
+          this.$.getCarById.generateRequest();
+        },
+        updateCar: function (car) {
+          this.$.updateCar.url = this.apiUrl+"/"+car.id;
+          this.$.updateCar.body = car;
+          this.$.updateCar.generateRequest();
+        },
+        onUpdate: function (event) {
+          this.fire('update-success',event.detail.response);
+        }
+      });
+    })();
+  </script>
+</dom-module>

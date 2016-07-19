@@ -1,0 +1,55 @@
+<link rel="import" href="/src/polymer-imports.html">
+
+<link rel="import" href="./cars/cars.component.html">
+<link rel="import" href="./components/home.html">
+
+<dom-module id="polymerCars-app">
+  <template>
+
+
+    <app-location route="{{route}}" ></app-location>
+    <app-route route="{{route}}" pattern="/:page" data="{{data}}" tail="{{tail}}"></app-route>
+
+
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    
+    <h2>Hello [[prop1]]</h2>
+
+    <header id="header" class="">
+      
+    </header><!-- /header -->
+
+    <iron-pages selected="[[data.page]]" attr-for-selected="name">
+      <my-home name=""></my-home>
+      <my-home name="home"></my-home>
+      <my-cars name="cars"></my-cars>      
+    </iron-pages>
+
+
+
+
+    <footer>
+      
+    </footer>
+
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'polymerCars-app',
+
+      properties: {
+        prop1: {
+          type: String,
+          value: 'polymerCars-app',
+        },
+      },
+
+    });
+  </script>
+</dom-module>
