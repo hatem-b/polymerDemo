@@ -62,9 +62,10 @@
           notify: true
         },
       },
-      attached : function(){        
+      attached : function(){       
         if (!this.data.page || this.data.page == "") {   
-          this.set("data.page", "home");          
+          //this.set("data.page", "home");          
+          window.location.href = "/home";
         }
       }
 
