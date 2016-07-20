@@ -7,37 +7,40 @@
 <dom-module id="car-list">
 	<template>
 
-	<style>
-		paper-tabs {
-			background-color: #ee6e73;
-			color: white;
-		}
-	</style>
-		<car-service id="carService" cars="{{cars}}"></car-service>	
+		<style>
+			paper-tabs {
+				background-color: #ee6e73;
+				color: white;
+			}
+		</style>
+		<car-service id="carService" cars="{{cars}}" on-get="onGet"></car-service>	
 
-<div style="margin:20px;">
+		<div style="margin:20px;">
 
-		<paper-tabs selected='{{route.path}}' attr-for-selected='key'>
-		  <paper-tab key='/cards'>Cards</paper-tab>
-		  <paper-tab key='/table'>Table</paper-tab>		  
-		</paper-tabs>
+			<paper-tabs selected='{{route.path}}' attr-for-selected='key'>
+				<paper-tab key='/cards'>Cards</paper-tab>
+				<paper-tab key='/table'>Table</paper-tab>		  
+			</paper-tabs>
 
-		<neon-animated-pages selected='{{route.path}}'
-		                     attr-for-selected='key'
-		                     entry-animation='slide-from-left-animation'
-		                     exit-animation='slide-right-animation'>		  
-		  
-		  <neon-animatable key='/cards'>
-		  	<car-cards cars="{{cars}}"></car-cards>
-		  </neon-animatable>
-		  <neon-animatable key='/table'>
-		  	<car-table cars="{{cars}}"></car-table>
-		  </neon-animatable>		  
+			<waiting-loader active="{{active}}" >
+				<neon-animated-pages selected='{{route.path}}'
+				attr-for-selected='key'
+				entry-animation='slide-from-left-animation'
+				exit-animation='slide-right-animation'>		  
 
-		</neon-animated-pages>
-</div>
+				<neon-animatable key='/cards'>
+					<car-cards cars="{{cars}}"></car-cards>
+				</neon-animatable>
+				<neon-animatable key='/table'>
+					<car-table cars="{{cars}}"></car-table>
+				</neon-animatable>		  
 
-	</template>
+			</neon-animated-pages>
+
+		</waiting-loader>
+	</div>
+
+</template>
 
 
 
@@ -59,7 +62,11 @@ Polymer({
           type: Boolean,
           value: false,
           observer: '_visibleChanged'      
-        },        
+        },
+        active : {
+          type: Boolean,
+          value : false
+        }        
       },
       _visibleChanged : function(visible){      	
       	if (!visible) return;
@@ -69,9 +76,13 @@ Polymer({
 	      }
 
 	      this.$.carService.getCars();
+	      this.active = true;
       },
       filterOnName : function(){
         return true;
+      },
+      onGet: function(aa){
+        this.active = false;
       }
 
     });

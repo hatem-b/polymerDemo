@@ -6,14 +6,16 @@
         id="getCars"
         url="{{apiUrl}}"
         handle-as="json"
-        last-response="{{cars}}"></iron-ajax>
+        last-response="{{cars}}"
+        on-response="onGet"></iron-ajax>
     <iron-ajax
         id="createCar"
         url="{{apiUrl}}"
         content-type="application/json"
         method="POST"
         handle-as="json"
-        on-response="onCreate"></iron-ajax>
+        on-response="onCreate"
+        on-error="onError"></iron-ajax>
     <iron-ajax
         id="deleteCar"
         method="DELETE"
@@ -24,11 +26,13 @@
         content-type="application/json"
         method="PUT"
         handle-as="json"
-        on-response="onUpdate"></iron-ajax>
+        on-response="onUpdate"
+        on-error="onError"></iron-ajax>
     <iron-ajax
         id="getCarById"
         handle-as="json"
-        last-response="{{currentCar}}"></iron-ajax>
+        last-response="{{car}}"
+        on-response="onGet"></iron-ajax>
   </template>
 
   <script>
@@ -47,7 +51,7 @@
             value: [],
             notify: true
           },
-          currentCar: {
+          car: {
             type: Object,
             value: {},
             notify: true
@@ -57,10 +61,11 @@
           this.$.getCars.generateRequest();
         },
         createCar: function (car) {
-          this.$.createCar.body = car;
+          this.$.createCar.body = {data: car};
           this.$.createCar.generateRequest();
         },
         onCreate: function (event) {
+          //console.log(event.detail.response);
           this.fire('create-success',event.detail.response);
         },
         deleteCar: function (carId) {
@@ -75,13 +80,20 @@
           this.$.getCarById.generateRequest();
         },
         updateCar: function (car) {
-          this.$.updateCar.url = this.apiUrl+"/"+car.id;
-          this.$.updateCar.body = car;
+          this.$.updateCar.url = this.apiUrl;
+          this.$.updateCar.body = {data: car};
           this.$.updateCar.generateRequest();
         },
         onUpdate: function (event) {
+          //console.log(event.detail.response);
           this.fire('update-success',event.detail.response);
-        }
+        },
+        onError: function(a){
+          //console.log(a);
+        },
+        onGet: function (event) {
+          this.fire('get',event.detail.response);
+        },
       });
     })();
   </script>

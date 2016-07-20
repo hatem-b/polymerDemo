@@ -1,10 +1,66 @@
 <link rel="import" href="../../polymer-imports.html">
-
+<link rel="import" href="../car-service.html">
 
 <dom-module id="car-form">
 	<template>
-		car form
 
+  <style include="iron-flex iron-flex-alignment">
+      paper-card {
+        margin: 20px;
+        padding: 20px;
+      }
+
+      paper-button {
+        background-color: green;
+        color: white;
+      }
+    </style>
+		
+    <app-location route="{{globalRoute}}"></app-location>
+
+    <app-route route="{{route}}" pattern="/:id" data="{{data}}" tail="{{subroute}}"></app-route>
+    <car-service id="carService" car="{{car}}" on-create-success="goToList" on-update-success="goToList" on-get="onGet"></car-service> 
+    
+
+
+    <paper-card class="layout flex vertical ">
+
+    <waiting-loader active="{{active}}" >
+      
+      <form is="iron-form" id="form" method="post" >
+        <section class="layout vertical">
+          <section class="column">
+            
+            <div class="row input-row">
+              <paper-input id="manufacturer"  name="manufacturer" label="Manufacturer"
+                           error-message="The manufacturer is required" required
+                           value="{{car.manufacturer}}" class="layout flex"></paper-input>
+            </div>
+            <div class="row input-row">
+              <paper-input id="model"  name="model" label="Model"
+                           error-message="The model is required" required
+                           value="{{car.model}}"></paper-input>
+            </div>
+            <div class="row input-row">
+              <paper-input id="price"  name="price" label="Price"
+                           error-message="The price is required" required
+                           value="{{car.price}}"></paper-input>
+            </div>
+            <div class="row input-row">
+              <paper-input id="wiki"  name="wiki" label="Wiki"                           
+                           value="{{car.wiki}}"></paper-input>
+            </div>
+            <div class="row input-row">
+              <paper-input id="image"  name="image" label="Image"                           
+                           value="{{car.img}}"></paper-input>
+            </div>
+          </section>          
+        </section>
+        <paper-button raised on-click="save">Save</paper-button>
+      </form>
+
+      </waiting-loader>
+    </paper-card>
 
 	</template>
 
@@ -21,7 +77,59 @@ Polymer({
           type: Object,
           value: {},
         },
+        route : {
+          notify: true,
+          //observer: '_routeChanged' 
+        },
+        data : {
+          notify: true,
+          //observer: '_routeChanged' 
+        },
+        visible: {    
+          type: Boolean,
+          value: false,
+          observer: '_visibleChanged'      
+        }, 
+        editMode: {
+          type : Boolean,
+          value: false
+        },
+        active: {
+          type: Boolean,
+          value: false
+        }
       },
+      _visibleChanged: function(visible) {
+        if (visible) {
+          this.async(function() {
+            if (this.editMode && this.data.id) {
+              this.$.carService.getCarById(this.data.id);
+              this.active = true;
+            }
+          });
+        }
+      },
+      save : function(){
+
+        if (this.editMode) {
+          this.$.carService.updateCar(this.car);
+        } else {
+          this.$.carService.createCar(this.car);
+        }
+        this.active = false;
+                
+      },
+
+      goToList : function(){
+        this.active = false;
+        this.car = {};
+
+        this.set("globalRoute.path", "/cars/list/cards");
+      },
+
+      onGet:function(){
+        this.active = false;
+      }
 
     });
 

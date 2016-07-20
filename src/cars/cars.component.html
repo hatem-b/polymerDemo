@@ -10,8 +10,9 @@
     <iron-pages selected="{{data.page}}" attr-for-selected="name" selected-attribute="visible">
             
       <car-list name="list" route="{{subroute}}"></car-list>
+      <car-card name="view" car-route="{{subroute}}"></car-card>
       <car-form name="add" route="{{subroute}}"></car-form>
-      <car-form name="edit" route="{{subroute}}"></car-form>
+      <car-form name="edit" route="{{subroute}}" edit-mode></car-form>
     </iron-pages>
 
   </template>

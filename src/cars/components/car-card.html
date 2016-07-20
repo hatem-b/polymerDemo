@@ -1,22 +1,65 @@
 <link rel="import" href="../../polymer-imports.html">
 
+<link rel="import" href="../car-service.html">
+<link rel="import" href="../../components/loader.html">
 
 <dom-module id="car-card">
 	<template>
-		<paper-card heading="Card Title">
-      <div class="card-content">
-                <img src="{{car.img}}" style="height:200px;width:400px;" /><br/>
-                <span>{{car.manufacturer}}</span><br/>
-                <span>{{car.model}}</span>
-              
-        </div>
-      <div class="card-actions">
-        <paper-button>Edit</paper-button>
-        <paper-button>Delete</paper-button>
-      </div>
+
+    <style include="iron-flex iron-flex-alignment">
+      paper-card {
+        margin : 10px;
+      }  
+
+      paper-button {
+        color: black;
+
+      }
+    </style>
+
+    <app-location route="{{globalRoute}}"></app-location>
+    <app-route route="{{carRoute}}" pattern="/:id" data="{{carData}}" tail="{{subroute}}"></app-route>
+    <car-service id="carService" car="{{car}}" on-delete-success="goToList" on-get="onGet"></car-service> 
+    
+    <paper-card heading="" class="layout flex vertical center">
+
+
+      <waiting-loader active="{{active}}" >
+        <template is="dom-if" if="{{viewMode}}">
+          <div class="card-content">
+            <img src="{{car.img}}" style="height:200px;width:400px;" /><br/>
+            <span>{{car.manufacturer}}</span><br/>
+            <span>{{car.model}}</span>
+            
+          </div>
+          <div class="card-actions">
+
+            
+            <a href="/cars/view/{{car.id}}" ><paper-button >View Details</paper-button></a>
+          </div>
+        </template>
+        <template is="dom-if" if="{{!viewMode}}">
+
+          <div class="card-content">
+            <img src="{{car.img}}" style="height:300px;width:600px;" /><br/>
+            <span>Manufacturer : {{car.manufacturer}}</span><br/>
+            <span>Model : {{car.model}}</span><br/>
+            <span>Price : {{car.price}}</span>
+          </div>
+          <div class="card-actions">
+            <a href="/cars/edit/{{car.id}}" ><paper-button>Edit</paper-button></a>
+            <paper-button on-click="delete">Delete</paper-button>
+            
+          </div>
+        </template>
+
+      </waiting-loader>
+      
+
     </paper-card>
 
-	</template>
+
+  </template>
 
 
 
@@ -31,8 +74,45 @@ Polymer({
           type: Object,
           value: {},
         },
+        viewMode: {
+          type : Boolean,
+          value: false
+        },
+        carRoute : {
+          notify: true,
+          //observer: '_routeChanged' 
+        },
+        visible: {    
+          type: Boolean,
+          value: false,
+          observer: '_visibleChanged'      
+        },
+        active : {
+          type: Boolean,
+          value : false
+        }   
       },
-
+      _visibleChanged: function(visible) {
+        if (visible) {
+          this.async(function() {
+          
+          if (this.carData.id) {
+            this.$.carService.getCarById(this.carData.id);
+            this.active = true;
+          }});
+        }        
+      },
+      delete: function(){
+        this.$.carService.deleteCar(this.car.id);
+        this.active = true;
+      },
+      goToList : function(){
+        this.active = false;
+        this.set("globalRoute.path", "/cars/list/cards");
+      },
+      onGet: function(aa){
+        this.active = false;
+      }
     });
 
 </script>
