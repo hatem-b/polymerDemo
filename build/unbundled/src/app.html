@@ -1,0 +1,47 @@
+<html><head><link rel="import" href="./polymer-imports.html">
+
+<link rel="import" href="./cars/cars.component.html">
+<link rel="import" href="./components/home.html">
+
+</head><body><dom-module id="polymerCars-app">
+  <template>
+
+
+    <app-location route="{{route}}"></app-location>
+    <app-route route="{{route}}" pattern="/:page" data="{{data}}" tail="{{subroute}}"></app-route>
+
+    <style include="iron-flex iron-flex-alignment">:host{display:block;}app-header{background-color:#ee6e73;color:white;}</style>
+    
+<div class="flex">
+    <app-header-layout>
+            <app-header condenses="" fixed="" effects="waterfall">
+                <app-toolbar>
+                    <a href="/home">
+                        <img src="" class="logo" alt="PolymerCars">
+                    </a>
+                    <span class="flex" title=""></span>
+                    <a href="/cars/list/cards">
+                        <paper-button> Cars </paper-button>
+                    </a>
+                    <a href="/cars/add">
+                        <paper-button> Add </paper-button>
+                    </a>
+                </app-toolbar>
+            </app-header>
+            
+    <iron-pages selected="{{data.page}}" attr-for-selected="name" selected-attribute="visible">
+      <my-home name="home" route="{{subroute}}"></my-home>
+      <my-cars name="cars" route="{{subroute}}"></my-cars>      
+    </iron-pages>
+  </app-header-layout>
+
+
+
+    <footer class="page-footer">
+    </footer>
+</div>
+  </template>
+
+  <script>Polymer({is:"polymerCars-app",properties:{route:{notify:!0}},attached:function(){this.data.page&&""!=this.data.page||this.set("data.page","home")}});</script>
+</dom-module>
+</body></html>

@@ -1,0 +1,41 @@
+<html><head><link rel="import" href="../../polymer-imports.html">
+
+<link rel="import" href="./car-table.html">
+<link rel="import" href="./car-cards.html">
+<link rel="import" href="../car-service.html">
+
+</head><body><dom-module id="car-list">
+	<template>
+
+		<style>paper-tabs{background-color:#ee6e73;color:white;}</style>
+		<car-service id="carService" cars="{{cars}}" on-get="onGet"></car-service>	
+
+		<div style="margin:20px">
+
+			<paper-tabs selected="{{route.path}}" attr-for-selected="key">
+				<paper-tab key="/cards">Cards</paper-tab>
+				<paper-tab key="/table">Table</paper-tab>		  
+			</paper-tabs>
+
+			<waiting-loader active="{{active}}">
+				<neon-animated-pages selected="{{route.path}}" attr-for-selected="key" entry-animation="slide-from-left-animation" exit-animation="slide-right-animation">		  
+
+				<neon-animatable key="/cards">
+					<car-cards cars="{{cars}}"></car-cards>
+				</neon-animatable>
+				<neon-animatable key="/table">
+					<car-table cars="{{cars}}"></car-table>
+				</neon-animatable>		  
+
+			</neon-animated-pages>
+
+		</waiting-loader>
+	</div>
+
+</template>
+
+
+
+<script>Polymer({is:"car-list",properties:{cars:{type:Array,value:[]},route:{notify:!0},visible:{type:Boolean,value:!1,observer:"_visibleChanged"},active:{type:Boolean,value:!1}},_visibleChanged:function(e){e&&(""!=this.route.path&&"/"!=this.route.path||this.set("route.path","/cards"),this.$.carService.getCars(),this.active=!0)},filterOnName:function(){return!0},onGet:function(e){this.active=!1}});</script>
+
+</dom-module></body></html>

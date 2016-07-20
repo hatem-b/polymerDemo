@@ -1,0 +1,21 @@
+<html><head><link rel="import" href="../../polymer-imports.html">
+<link rel="import" href="./car-card.html">
+
+
+</head><body><dom-module id="car-cards">
+	<template>
+		<style include="iron-flex iron-flex-alignment"></style>
+    <paper-input class="search flex" value="{{filter}}" label="Search"></paper-input>
+    <div class="layout vertical wrap center">
+        <template id="carRepeat" is="dom-repeat" items="{{cars}}" filter="filterFunction">
+            <car-card car="{{item}}" view-mode="">
+        </car-card></template>
+    </div>
+
+	</template>
+
+
+
+<script>Polymer({is:"car-cards",properties:{cars:{type:Array,value:[],notify:!0},filter:{type:String,notify:!0,observer:"_filterChanged"}},filterFunction:function(e){return JSON.stringify(e).toLowerCase().indexOf(this.filter.toLowerCase())>=0},_filterChanged:function(){this.$.carRepeat.render()}});</script>
+
+</dom-module></body></html>

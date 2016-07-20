@@ -1,0 +1,27 @@
+<html><head><link rel="import" href="../polymer-imports.html">
+
+
+</head><body><dom-module id="waiting-loader">
+	<template>
+
+
+    <style include="iron-flex iron-flex-alignment">:host{display:block;}</style>
+    
+    
+
+
+    <paper-spinner active="" hidden$="{{!active}}"></paper-spinner>  
+
+    <div hidden$="{{active}}"> 
+      <content></content>
+    </div>
+    
+
+
+  </template>
+
+
+
+<script>Polymer({is:"waiting-loader",properties:{active:{type:Boolean,value:!0,notify:!0},aa:{type:Boolean,value:!1,notify:!0}}});</script>
+
+</dom-module></body></html>

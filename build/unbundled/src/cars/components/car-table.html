@@ -1,0 +1,39 @@
+<html><head><link rel="import" href="../../polymer-imports.html">
+
+</head><body><dom-module id="car-table">
+	<template>
+  <div class="layout flex vertical center">
+		<table class="" style="margin : auto">
+        <thead>
+          <tr>
+            <th>Manufacturer</th>
+            <th>Model</th>
+            <th>Price</th>
+            <th>Wiki</th>
+            <th>Image</th>
+          </tr>
+        </thead>
+        <tbody>
+          <template id="carRepeat" is="dom-repeat" items="{{cars}}">
+                  
+              <tr>
+                <td>{{item.manufacturer}}</td>
+                <td>{{item.model}}</td>
+                <td>{{item.price}}</td>
+                <td><a class="blue-text" href="{{item.wiki}}" target="_blank"> {{item.wiki}}</a></td>      
+                <td><img src="{{item.img}}" style="height:50px;width:100px"></td>
+              </tr>
+              </template>
+        </tbody>
+</table>
+
+</div>
+
+
+	</template>
+
+
+
+<script>Polymer({is:"car-table",properties:{cars:{type:Array,value:[]},car:{type:Object,value:{}}}});</script>
+
+</dom-module></body></html>
