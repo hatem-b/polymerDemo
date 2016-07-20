@@ -42,6 +42,6 @@
 </div>
   </template>
 
-  <script>Polymer({is:"polymerCars-app",properties:{route:{notify:!0}},attached:function(){this.data.page&&""!=this.data.page||this.set("data.page","home")}});</script>
+  <script>Polymer({is:"polymerCars-app",properties:{route:{notify:!0}},attached:function(){this.data.page&&""!=this.data.page||(window.location.href="/home")}});</script>
 </dom-module>
 </body></html>
